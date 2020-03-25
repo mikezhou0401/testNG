@@ -1,5 +1,4 @@
 import org.apache.log4j.Logger;
-
 public class TestLog {
 private Logger logger= Logger.getLogger(this.getClass());
 public void  testlog(){
