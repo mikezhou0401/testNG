@@ -1,10 +1,7 @@
 package interFace;
 
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import javafx.scene.shape.HLineTo;
+import mid.Parameter;
 import org.apache.http.*;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -24,6 +21,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static mid.GetFile.getJsonFile;
 
 
 public class HttpClientTest {
@@ -89,9 +88,9 @@ public class HttpClientTest {
         return null;
     }
 
-    public CloseableHttpResponse post(String url, String body) {
-        CloseableHttpClient httpClient = null;
-        HttpPost httpPost = null;
+    public static CloseableHttpResponse post(String url, String body) {
+        CloseableHttpClient httpClient;
+        HttpPost httpPost;
         try {
             httpClient = HttpClients.createDefault();
             RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(2000).setConnectTimeout(2000).build();
@@ -107,43 +106,5 @@ public class HttpClientTest {
         return null;
     }
 
-    public String getJsonFile(File f) {
-        File file = f;
 
-        if (!file.exists()) {
-            return null;
-        }
-        String result = null;
-        try {
-            FileReader fis = new FileReader(file);
-            BufferedReader br = new BufferedReader(fis);
-            while (true) {
-                String line = br.readLine();
-                if (null == line) {
-                    break;
-                }
-                if (result == null) {
-                    result = line;
-                } else result = result.concat(line);
-            }
-            System.out.println(result);
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-
-    @Test
-    public void test() {
-        String url = "http://192.168.1.233:8011/platform/business-triggers/create";
-        File f = new File("E:\\附件\\覆盖黄色场景.txt");
-        HttpClientTest httpClientTest = new HttpClientTest();
-        String json = httpClientTest.getJsonFile(f);
-        CloseableHttpResponse response = httpClientTest.post(url, json);
-        HttpEntity httpEntity = response.getEntity();
-        int code=response.getStatusLine().getStatusCode();
-    }
 }
