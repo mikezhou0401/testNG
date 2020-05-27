@@ -2,6 +2,7 @@ package mid;
 
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.util.EntityUtils;
+import org.apache.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -13,9 +14,11 @@ import static mid.GetFile.getJsonFile;
 
 public class MidBusiness {
     final String url = "http://10.22.1.130:8011/businessTrigger/create";
+    Log log=new Log(this.getClass());
 
     @BeforeTest
     public void before() {
+
         String json2 = getJsonFile(Parameter.A1_B1.getName());
         String json1 = getJsonFile(Parameter.A1_B2.getName());
         String json3 = getJsonFile(Parameter.A2_B1.getName());
@@ -37,6 +40,8 @@ public class MidBusiness {
 
     @Test()
     public void testA1_A1() throws IOException {
+        log.error("测试A1_A1循环开始"+"\n");
+
         String json = getJsonFile(Parameter.A1_A1.getName());
         CloseableHttpResponse response = post(url, json);
         String entity = EntityUtils.toString(response.getEntity());
